@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ToursTouring – Roatan, Honduras</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ocean:   #0a7ea4;
+      --deep:    #044e67;
+      --sand:    #f5e6c8;
+      --coral:   #e8633a;
+      --white:   #ffffff;
+      --dark:    #0d1f2d;
+      --light:   #f0f7fa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(10, 30, 45, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--white); letter-spacing: 1px;
+    }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-cta {
+      background: var(--coral); color: var(--white);
+      padding: 0.5rem 1.4rem; border-radius: 50px;
+      font-size: 0.88rem; font-weight: 500;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: #cf4e28; transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative; height: 100vh; min-height: 600px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      background: var(--dark);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #044e67 0%, #0a7ea4 45%, #1ab3e6 100%);
+      opacity: 0.9;
+    }
+    /* Decorative wave */
+    .hero-bg::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; width: 100%; height: 120px;
+      background: var(--white);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    /* Placeholder image area */
+    .hero-img-placeholder {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1600&q=80') center/cover no-repeat;
+      opacity: 0.25;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; padding: 0 1.5rem;
+      animation: fadeUp 1s ease both;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: var(--sand); border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.35rem 1rem; border-radius: 50px;
+      font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      font-weight: 900; color: var(--white);
+      line-height: 1.1; margin-bottom: 1.2rem;
+    }
+    .hero h1 em { color: var(--sand); font-style: normal; }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.85); max-width: 560px;
+      margin: 0 auto 2rem; line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--coral); color: var(--white);
+      padding: 0.85rem 2.2rem; border-radius: 50px;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 4px 20px rgba(232,99,58,0.4);
+    }
+    .btn-primary:hover { background: #cf4e28; transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid rgba(255,255,255,0.6); color: var(--white);
+      padding: 0.85rem 2.2rem; border-radius: 50px;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
+
+    /* ─── GALLERY STRIP ─── */
+    .gallery {
+      padding: 5rem 5% 4rem;
+      background: var(--white);
+    }
+    .section-label {
+      font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--ocean); font-weight: 500; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700;
+      color: var(--dark); margin-bottom: 2.5rem; line-height: 1.2;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden; border-radius: 14px;
+      aspect-ratio: 4/3; background: var(--light);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    /* Placeholder style when no image */
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #c8e6f0, #e8f4f8);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--ocean); font-size: 0.85rem;
+      gap: 0.5rem; border-radius: 14px;
+    }
+    .gallery-placeholder svg { width: 36px; height: 36px; opacity: 0.5; }
+
+    /* ─── ABOUT SECTION ─── */
+    .about {
+      padding: 5rem 5%;
+      background: var(--light);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .about-img {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/5; background: linear-gradient(135deg, #0a7ea4, #1ab3e6);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+    .about-img-placeholder {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--white); gap: 0.8rem; font-size: 0.9rem; opacity: 0.7;
+      width: 100%; height: 100%;
+    }
+    .about-img::before {
+      content: '';
+      position: absolute; top: -20px; left: -20px;
+      width: 140px; height: 140px;
+      background: var(--coral); border-radius: 50%; opacity: 0.15; z-index: 0;
+    }
+    .about-text { position: relative; }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.8; color: #3a4a55;
+      margin-bottom: 1.5rem; font-weight: 300;
+    }
+    .features-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;
+    }
+    .feature-card {
+      background: var(--white); border-radius: 12px; padding: 1.2rem;
+      border-left: 3px solid var(--ocean);
+    }
+    .feature-card h4 {
+      font-size: 0.9rem; font-weight: 600; color: var(--dark); margin-bottom: 0.3rem;
+    }
+    .feature-card p { font-size: 0.82rem; color: #5a6a75; line-height: 1.5; }
+
+    /* ─── CALL TO ACTION ─── */
+    .cta {
+      padding: 6rem 5%;
+      background: linear-gradient(135deg, var(--deep) 0%, var(--ocean) 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .cta::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 200px; height: 200px;
+      background: rgba(232,99,58,0.15);
+      border-radius: 50%;
+    }
+    .cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem); color: var(--white);
+      margin-bottom: 1rem; position: relative; z-index: 1;
+    }
+    .cta p {
+      color: rgba(255,255,255,0.8); font-size: 1.05rem;
+      max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7;
+      position: relative; z-index: 1;
+    }
+    .cta .btn-primary { position: relative; z-index: 1; font-size: 1.05rem; padding: 1rem 2.5rem; }
+
+    /* ─── HOURS & INFO ─── */
+    .info {
+      padding: 5rem 5%;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2rem;
+    }
+    .info-card {
+      background: var(--light); border-radius: 16px; padding: 2rem;
+      border-top: 4px solid var(--ocean);
+    }
+    .info-card h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      color: var(--dark); margin-bottom: 1rem;
+    }
+    .info-card p, .info-card li {
+      font-size: 0.9rem; color: #4a5a65; line-height: 1.8;
+    }
+    .info-card ul { list-style: none; }
+    .info-card ul li::before { content: '✦ '; color: var(--coral); font-size: 0.7rem; }
+
+    /* ─── CONTACT ─── */
+    .contact-bar {
+      background: var(--dark); padding: 3rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .contact-bar p { color: rgba(255,255,255,0.7); font-size: 0.95rem; }
+    .contact-bar strong { color: var(--white); }
+    .whatsapp-btn {
+      display: flex; align-items: center; gap: 0.6rem;
+      background: #25D366; color: var(--white);
+      padding: 0.7rem 1.6rem; border-radius: 50px;
+      text-decoration: none; font-weight: 500; font-size: 0.95rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .whatsapp-btn:hover { background: #1ebe5a; transform: translateY(-2px); }
+    .whatsapp-btn svg { width: 20px; height: 20px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060f17; padding: 2rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: var(--white); font-weight: 700;
+    }
+    .footer-logo span { color: var(--coral); }
+    footer p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.5); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--coral); }
+
+    /* ─── ANIMATION ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .about { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-img { aspect-ratio: 16/9; }
+      .features-grid { grid-template-columns: 1fr; }
+      .contact-bar { flex-direction: column; text-align: center; }
+      footer { flex-direction: column; text-align: center; }
+    }    @keyframes pageFadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-14px); }
+    }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      margin-left: 12px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2.5px;
+      background: var(--white); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 72px; left: 0; width: 100%;
+      background: rgba(13, 31, 45, 0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 99; flex-direction: column; padding: 0.5rem 5%;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem; font-weight: 500;
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a.active { color: var(--coral); }
+    .mobile-menu a:hover { color: var(--coral); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .gallery { padding: 3rem 4% 2.5rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .about { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 4%; }
+      .about-img { aspect-ratio: 16/9; }
+      .features-grid { grid-template-columns: 1fr; }
+      .cta { padding: 4rem 4%; }
+      .info { padding: 3rem 4%; }
+      .contact-bar { flex-direction: column; text-align: center; padding: 2rem 4%; }
+      footer { flex-direction: column; text-align: center; padding: 1.5rem 4%; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">Tours<span>Touring</span></div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tours.html">Tours</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="tours.html" class="nav-cta">Book Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="active">Home</a>
+    <a href="tours.html">Tours</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-img-placeholder"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Roatan, Honduras</div>
+      <h1>Explore Roatan's<br/><em>Hidden Gems</em></h1>
+      <p>Unforgettable journeys through stunning landscapes, vibrant coral reefs, and the warmest island culture. Your adventure starts here.</p>
+      <div class="hero-btns">
+        <a href="tours.html" class="btn-primary">Explore Tours</a>
+        <a href="about.html" class="btn-outline">About Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="section-label">Our Island</div>
+    <div class="section-title">Beautiful Moments<br/>in Roatan</div>
+    <div class="gallery-grid">
+      <!-- Replace src with your own photos -->
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="about-img">
+      <!-- Replace with your image: <img src="your-photo.jpg" alt="ToursTouring team"> -->
+      <div class="about-img-placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Your Photo Here
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">Unforgettable Fun<br/>Experience</h2>
+      <p>Experience the best of our beautiful island with <strong>ToursTouring</strong>, a family-owned local tour company dedicated to making your vacation unforgettable.</p>
+      <p>Our born and raised local guides are excited to show you the best our island has to offer. Book today and let us help you create memories that will last a lifetime!</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h4>Customized Tours</h4>
+          <p>Tailored to your unique preferences, whether relaxation or adventure.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Family-Friendly</h4>
+          <p>Fun and safe for all ages. Create lasting memories together.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Local Guides</h4>
+          <p>Born and raised on the island, sharing authentic insider knowledge.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Affordable Packages</h4>
+          <p>Quality service designed to fit every budget. No hidden fees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION -->
+  <section class="cta">
+    <h2>Ready to Explore Roatan?</h2>
+    <p>Join us for an unforgettable experience where nature meets adventure. Our tailored tours promise to create lasting memories for you and your loved ones.</p>
+    <a href="tours.html" class="btn-primary">Book Your Adventure Now</a>
+  </section>
+
+  <!-- HOURS & INFO -->
+  <section class="info">
+    <div class="info-card">
+      <h3>⏰ Opening Hours</h3>
+      <ul>
+        <li>Monday – Friday: 7 AM – 6 PM</li>
+        <li>Saturday: 8 AM – 4 PM</li>
+        <li>Sunday: 8 AM – 3 PM</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>💰 Pricing Policy</h3>
+      <ul>
+        <li>Affordable packages for all budgets</li>
+        <li>Special discounts for groups & families</li>
+        <li>Transparent pricing, no hidden fees</li>
+        <li>Contact us for personalized quotes</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>📬 Contact Us</h3>
+      <p>📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ee97819b9c808f838bae8b838f8782c08d8183">[email&#160;protected]</a></p><br/>
+      <p>📞 +504 0000-0000</p><br/>
+      <p>📍 Roatan, Honduras</p>
+    </div>
+  </section>
+
+  <!-- WHATSAPP BAR -->
+  <div class="contact-bar">
+    <p>Have questions? <strong>We're just a message away.</strong></p>
+    <a href="https://api.whatsapp.com/send?phone=50400000000&text=Hi!%20I%20found%20you%20on%20your%20website." class="whatsapp-btn" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.556 4.116 1.524 5.847L0 24l6.335-1.502A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 0 1-5.003-1.366l-.36-.214-3.76.892.952-3.653-.235-.374A9.775 9.775 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182c5.43 0 9.818 4.388 9.818 9.818 0 5.43-4.388 9.818-9.818 9.818z"/></svg>
+      Chat on WhatsApp
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Tours<span>Touring</span></div>
+    <p>© 2025 ToursTouring. Roatan, Honduras. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="tours.html">Tours</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('mobileMenu');
+      var btn = document.getElementById('hamburger');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>

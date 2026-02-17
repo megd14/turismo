@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us – ToursTouring</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ocean:  #0a7ea4;
+      --deep:   #044e67;
+      --sand:   #f5e6c8;
+      --coral:  #e8633a;
+      --white:  #ffffff;
+      --dark:   #0d1f2d;
+      --light:  #f0f7fa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5%;
+      background: rgba(10, 30, 45, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--white); letter-spacing: 1px; text-decoration: none;
+    }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--coral); }
+    .nav-cta {
+      background: var(--coral); color: var(--white);
+      padding: 0.5rem 1.4rem; border-radius: 50px;
+      font-size: 0.88rem; font-weight: 500;
+      text-decoration: none; transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: #cf4e28; transform: translateY(-1px); }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      padding: 9rem 5% 7rem;
+      background: linear-gradient(135deg, #022e3f 0%, #044e67 60%, #0a7ea4 100%);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; width: 100%; height: 50px;
+      background: var(--white);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .page-header .tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15); color: var(--sand);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.35rem 1rem; border-radius: 50px;
+      font-size: 0.78rem; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900;
+      color: var(--white); line-height: 1.15;
+    }
+    .page-header h1 em { color: var(--sand); font-style: normal; }
+    .page-header p {
+      color: rgba(255,255,255,0.8); max-width: 520px;
+      margin: 1rem auto 0; font-size: 1.05rem; line-height: 1.7;
+    }
+
+    /* ─── SECTION HELPERS ─── */
+    .section-label {
+      font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--ocean); font-weight: 500; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      color: var(--dark); margin-bottom: 1.5rem; line-height: 1.2;
+    }
+
+    /* ─── INTRO SECTION ─── */
+    .intro {
+      padding: 5rem 5%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .intro-img-wrap {
+      position: relative;
+    }
+    .intro-img {
+      position: relative; border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, #0a7ea4, #1ab3e6);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .intro-img img { width: 100%; height: 100%; object-fit: cover; }
+    .img-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.8rem;
+      color: var(--white); opacity: 0.6; font-size: 0.88rem;
+      width: 100%; height: 100%;
+    }
+    .img-placeholder svg { width: 40px; height: 40px; }
+    .badge {
+      position: absolute; bottom: 1.5rem; left: 1.5rem;
+      background: var(--white); border-radius: 12px;
+      padding: 0.8rem 1.2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .badge span { display: block; font-size: 0.75rem; color: #7a8a95; }
+    .badge strong { font-size: 1.1rem; color: var(--dark); }
+    .intro-text p {
+      font-size: 1.05rem; line-height: 1.8; color: #3a4a55;
+      margin-bottom: 1.2rem; font-weight: 300;
+    }
+    .intro-text p strong { color: var(--dark); font-weight: 600; }
+    .btn-primary {
+      display: inline-block;
+      background: var(--coral); color: var(--white);
+      padding: 0.85rem 2.2rem; border-radius: 50px;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 1rem;
+    }
+    .btn-primary:hover { background: #cf4e28; transform: translateY(-2px); }
+
+    /* ─── SERVICES GRID ─── */
+    .services {
+      padding: 5rem 5%;
+      background: var(--light);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 1rem;
+    }
+    .service-card {
+      background: var(--white); border-radius: 16px; padding: 2rem;
+      border-top: 3px solid var(--ocean);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(10,30,45,0.1);
+    }
+    .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;
+    }
+    .service-card p { font-size: 0.88rem; color: #5a6a75; line-height: 1.65; }
+
+    /* ─── TEAM SECTION ─── */
+    .team {
+      padding: 5rem 5%;
+    }
+    .team-intro {
+      max-width: 600px; margin-bottom: 3rem;
+    }
+    .team-intro p { font-size: 1.05rem; color: #3a4a55; line-height: 1.8; font-weight: 300; }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .team-card {
+      border-radius: 16px; overflow: hidden;
+      background: var(--light);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+    .team-card:hover { transform: translateY(-4px); }
+    .team-photo {
+      aspect-ratio: 1/1; overflow: hidden;
+      background: linear-gradient(135deg, #c8e6f0, #a8d8ea);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .team-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .team-photo-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.5rem;
+      color: var(--ocean); opacity: 0.6; font-size: 0.8rem;
+      width: 100%; height: 100%;
+    }
+    .team-photo-placeholder svg { width: 36px; height: 36px; }
+    .team-info { padding: 1.2rem; }
+    .team-info h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; color: var(--dark); margin-bottom: 0.25rem;
+    }
+    .team-info span { font-size: 0.82rem; color: var(--ocean); font-weight: 500; }
+
+    /* ─── PHOTO GALLERY ROW ─── */
+    .gallery-row {
+      padding: 0 5% 5rem;
+    }
+    .gallery-row-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+    }
+    .gallery-row-grid .tall { grid-row: span 2; }
+    .gal-item {
+      border-radius: 14px; overflow: hidden;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #c8e6f0, #e8f4f8);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gal-item.tall { aspect-ratio: auto; }
+    .gal-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.4rem;
+      color: var(--ocean); opacity: 0.5; font-size: 0.8rem;
+      width: 100%; height: 100%; min-height: 160px;
+    }
+    .gal-placeholder svg { width: 30px; height: 30px; }
+    .gal-item img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ─── CTA STRIP ─── */
+    .cta-strip {
+      padding: 5rem 5%;
+      background: linear-gradient(135deg, var(--deep) 0%, var(--ocean) 100%);
+      text-align: center;
+    }
+    .cta-strip h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .cta-strip p {
+      color: rgba(255,255,255,0.8); font-size: 1.05rem;
+      max-width: 500px; margin: 0 auto 2rem; line-height: 1.7;
+    }
+    .cta-strip .btn-primary { font-size: 1.05rem; padding: 1rem 2.5rem; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #060f17; padding: 2rem 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: var(--white); font-weight: 700;
+    }
+    .footer-logo span { color: var(--coral); }
+    footer p { color: rgba(255,255,255,0.4); font-size: 0.82rem; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: rgba(255,255,255,0.5); font-size: 0.82rem;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--coral); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; gap: 2.5rem; }
+      .intro-img { aspect-ratio: 16/9; }
+      .gallery-row-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-row-grid .tall { grid-row: span 1; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .gallery-row-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+    }    @keyframes pageFadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-14px); }
+    }
+
+    /* ─── HEADER ANIMATION ─── */
+    .page-header-content {
+      animation: fadeUp 1s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-header .tag  { animation: fadeUp 0.8s ease both; animation-delay: 0.1s; }
+    .page-header h1    { animation: fadeUp 0.9s ease both; animation-delay: 0.2s; }
+    .page-header p     { animation: fadeUp 1s ease both;   animation-delay: 0.35s; }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      margin-left: 12px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2.5px;
+      background: var(--white); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 72px; left: 0; width: 100%;
+      background: rgba(13, 31, 45, 0.98);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      z-index: 99; flex-direction: column; padding: 0.5rem 5%;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem; font-weight: 500;
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a.active { color: var(--coral); }
+    .mobile-menu a:hover { color: var(--coral); }
+
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; gap: 2rem; }
+      .intro-img { aspect-ratio: 4/3; }
+      .gallery-row-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-row-grid .tall { grid-row: span 1; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .page-header { padding: 8rem 4% 5rem !important; }
+      .intro { padding: 3rem 4%; }
+      .intro-img {
+        overflow: visible !important;
+      }
+      .badge {
+        position: static !important;
+        display: inline-block;
+        margin: 0.8rem 0 0 0;
+      }
+      .services { padding: 3rem 4%; }
+      .services-grid { grid-template-columns: 1fr; }
+      .team { padding: 3rem 4%; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-row { padding: 0 4% 3rem; }
+      .gallery-row-grid { grid-template-columns: 1fr; }
+      .cta-strip { padding: 4rem 4%; }
+      footer { flex-direction: column; text-align: center; padding: 1.5rem 4%; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">Tours<span>Touring</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tours.html">Tours</a></li>
+      <li><a href="about.html" class="active">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="tours.html" class="nav-cta">Book Now</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="tours.html">Tours</a>
+    <a href="about.html" class="active">About Us</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header"><div class="page-header-content">
+    <div class="tag">Our Story</div>
+    <h1>About <em>ToursTouring</em></h1>
+    <p>A family-owned business born and raised in Roatan, dedicated to showing you the best our island has to offer.</p>
+  </div></header>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="intro-img-wrap">
+      <div class="intro-img">
+        <!-- Replace with: <img src="images/team-photo.jpg" alt="ToursTouring Family"> -->
+        <div class="img-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Team Photo Here
+        </div>
+      </div>
+      <div class="badge">
+        <span>Years of experience</span>
+        <strong>Local & Proud 🇭🇳</strong>
+      </div>
+    </div>
+    <div class="intro-text">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">A Family Passionate<br/>About Roatan</h2>
+      <p>We are <strong>ToursTouring</strong>, a family-owned local tour company based in the heart of Roatan, Honduras. Our team was born and raised on this beautiful island, and we carry a deep love for its culture, nature, and people.</p>
+      <p>We believe every visitor deserves an authentic, safe, and unforgettable experience. That's why we go beyond the typical tourist path — we take you to the real Roatan, the one we know and love.</p>
+      <p>From snorkeling in crystal-clear waters to exploring lush jungle trails, every tour we offer is designed with care, passion, and a personal touch that only a local family can provide.</p>
+      <a href="contact.html" class="btn-primary">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services">
+    <div class="section-label">What We Offer</div>
+    <div class="section-title">Why Choose Us</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🗺️</div>
+        <h3>Customized Tours</h3>
+        <p>Every tour is tailored to your group's interests, whether you're looking for relaxation, adventure, or cultural immersion.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🤿</div>
+        <h3>Adventure Activities</h3>
+        <p>From snorkeling in vibrant coral reefs to thrilling zip-lining through lush jungles — we offer experiences for every kind of traveler.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">👨‍👩‍👧‍👦</div>
+        <h3>Family-Friendly</h3>
+        <p>We design tours that are fun and safe for all ages. Create lasting memories with your loved ones in Roatan's beautiful surroundings.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💰</div>
+        <h3>Affordable Packages</h3>
+        <p>Quality experiences designed to fit every budget. Transparent pricing with no hidden fees. We believe everyone deserves to explore Roatan.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⭐</div>
+        <h3>VIP Service</h3>
+        <p>Looking for something extra special? Our VIP service prioritizes your comfort, privacy, and satisfaction from start to finish.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌿</div>
+        <h3>Sustainable Tourism</h3>
+        <p>We are committed to protecting Roatan's natural beauty. Our tours respect the environment and support the local community.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team">
+    <div class="team-intro">
+      <div class="section-label">The People Behind It</div>
+      <div class="section-title">Meet Our Team</div>
+      <p>Our guides are locals who know every corner of this island. Their warmth, knowledge, and passion for Roatan will make your experience truly special.</p>
+    </div>
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-photo">
+          <!-- Replace with: <img src="images/member1.jpg" alt="Name"> -->
+          <div class="team-photo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Photo
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Name Here</h4>
+          <span>Founder / Guide</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo">
+          <div class="team-photo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Photo
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Name Here</h4>
+          <span>Co-Founder / Guide</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo">
+          <div class="team-photo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Photo
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Name Here</h4>
+          <span>Tour Guide</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo">
+          <div class="team-photo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            Photo
+          </div>
+        </div>
+        <div class="team-info">
+          <h4>Name Here</h4>
+          <span>Tour Guide</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PHOTO GALLERY ROW -->
+  <section class="gallery-row">
+    <div class="section-label">Our Island</div>
+    <div class="section-title" style="margin-bottom:1.5rem;">Roatan Through Our Eyes</div>
+    <div class="gallery-row-grid">
+      <div class="gal-item tall">
+        <div class="gal-placeholder" style="min-height:340px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+      <div class="gal-item">
+        <div class="gal-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Your Photo Here
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <section class="cta-strip">
+    <h2>Ready to Explore with Us?</h2>
+    <p>Book your adventure today and let our family show you the Roatan we love. We can't wait to meet you!</p>
+    <a href="tours.html" class="btn-primary">See Our Tours</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Tours<span>Touring</span></div>
+    <p>© 2025 ToursTouring. Roatan, Honduras. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="tours.html">Tours</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('mobileMenu');
+      var btn = document.getElementById('hamburger');
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
